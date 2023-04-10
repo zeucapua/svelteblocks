@@ -1,7 +1,7 @@
 <script lang="ts">
   import App from "./App.svelte";
   import { onMount, onDestroy } from "svelte";
-  import { createClient, type Client, type Room } from "@liveblocks/client";
+  import { createClient, type Client, type Room, LiveMap } from "@liveblocks/client";
 
   export let data;
 
@@ -16,7 +16,7 @@
   }
 
   type Storage = {
-
+    fabric : LiveMap<string, string>
   }
 
   onMount(() => {
@@ -24,8 +24,8 @@
     room = client.enter<Presence, Storage>(
       room_id, 
       {
-        initialPresence: { username, cursor: null },
-        initialStorage: {}
+        initialPresence: { username, cursor: null,  },
+        initialStorage: { fabric: new LiveMap(), }
       }
     );
   });
