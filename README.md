@@ -8,7 +8,7 @@
   <div>
     <img alt="Svelte" src="https://img.shields.io/badge/-Svelte-F05032?style=flat-square&logo=svelte&logoColor=white" />
     <img alt="TypeScript" src="https://img.shields.io/badge/-TypeScript-007ACC?style=flat-square&logo=typescript&logoColor=white" />
-    <img alt="Liveblocks" src="https://img.shields.io/badge/-Liveblocks-d698e9?style=flat-square&logo=svelte&logoColor=white" />
+    <img alt="Liveblocks" src="https://img.shields.io/badge/-Liveblocks-d698e9?style=flat-square&logo=liveblocks&logoColor=white" />
   </div>
 
 </div>
@@ -25,7 +25,7 @@ database implementation to persist data for users.
 
 - [x] Fabric.js Live Whiteboard 
 - [x] Liveblocks w/ URL SearchParams based data
-- [ ] Authentication (Auth.js?, Authorizer?, Clerk?)
-- [ ] Prisma + Planetscale data persistence
+- [x] Authentication (Auth.js)
+- [ ] Prisma + Railway MySQL data persistence
 
 
