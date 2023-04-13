@@ -1,12 +1,14 @@
 import { error } from "@sveltejs/kit";
 
-export async function load({ cookies, url }) {
+export async function load({ locals, cookies, url }) {
+  const session = await locals.getSession();
+  const user = session.user; 
+
   const params = url.searchParams;
   const room_id = params.get("id");
-  const username = params.get("username");
+  const user_id = cookies.get("user_id");
 
-  if ( !(room_id && username) ) { throw error(403, "Invalid search params"); }
+  if ( !(room_id && user_id) ) { throw error(403, "Invalid search params"); }
 
-  cookies.set("username", username);
-  return { room_id, username };
+  return { room_id, username: user.name || "" };
 }

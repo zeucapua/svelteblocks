@@ -4,8 +4,8 @@ import { LIVEBLOCKS_SECRET_KEY } from "$env/static/private";
 export async function POST({ cookies, request }) {
   const { room } = await request.json();
 
-  const username = cookies.get("username");
-  const userId = Math.floor(Math.random() * 100).toString();
+  const userId = cookies.get("user_id");
+  console.log({ userId });
   
   const response = await authorize({
     room: room,

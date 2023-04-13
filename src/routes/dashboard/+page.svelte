@@ -5,9 +5,9 @@
 
   let user = $page.data.session?.user;
   let room_id : string;
-  let username : string = user?.name || "";
+  let user_id = user?.id;
 
-  function enterRoom() { goto(`/room?id=${room_id}&username=${username}`); }
+  function enterRoom() { goto(`/room?id=${room_id}&user=${user_id}`); }
   function signOutAccount() { signOut(); goto("/"); }
 </script>
 
