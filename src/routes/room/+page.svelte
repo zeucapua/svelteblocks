@@ -28,6 +28,7 @@
         initialStorage: { fabric: new LiveMap(), }
       }
     );
+
   });
 
   onDestroy(() => {

@@ -10,7 +10,6 @@
   <button on:click={() => goto("/dashboard")}>Dashboard</button>
   <button on:click={signOut}>Sign Out</button>
 {:else}
-  <button on:click={() => signIn("github")}>Sign In with Github</button>
   <button on:click={() => signIn("discord")}>Sign In with Discord</button>
 {/if}
 

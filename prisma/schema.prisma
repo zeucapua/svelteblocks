@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,22 +8,22 @@ datasource db {
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String  @map("user_id")
-  type               String
-  provider           String
-  providerAccountId  String  @map("provider_account_id")
-  refresh_token      String? @db.Text
-  access_token       String? @db.Text
-  expires_in Int?
-  token_type         String?
-  scope              String?
-  id_token           String? @db.Text
-  session_state      String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  expires_in        Int?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId], map: "accounts_user_id_fkey")
   @@map("accounts")
 }
 
@@ -37,6 +34,7 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId], map: "sessions_user_id_fkey")
   @@map("sessions")
 }
 
@@ -48,6 +46,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  Room          Room[]    @relation("RoomToUser")
 
   @@map("users")
 }
@@ -59,4 +58,20 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationtokens")
+}
+
+model Guest {
+  id      String   @id
+  name    String
+  expires DateTime
+  roomId  String
+  Room    Room     @relation(fields: [roomId], references: [id])
+
+  @@index([roomId], map: "Guest_roomId_fkey")
+}
+
+model Room {
+  id    String  @id
+  Guest Guest[]
+  users User[]  @relation("RoomToUser")
 }

@@ -1,3 +1,4 @@
+import { prisma } from "$lib/prisma";
 import { authorize } from "@liveblocks/node";
 import { LIVEBLOCKS_SECRET_KEY } from "$env/static/private";
 
@@ -15,3 +16,4 @@ export async function POST({ cookies, request }) {
 
   return new Response(response.body, { status: response.status });
 }
+
