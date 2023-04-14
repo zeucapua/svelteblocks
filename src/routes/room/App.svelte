@@ -63,13 +63,17 @@
     const { root } = await room.getStorage();
     fabric_map = root.get("fabric");
 
+    canvas = new fabric.Canvas("fabric");
+
+    // initial render 
+    fabric_json = fabric_map.get("fabric") || "";
+    renderFabric();
+    canvas.renderAll();
+
     unsubscribeFromFabric = room.subscribe(fabric_map, () => {
       fabric_json = fabric_map.get("fabric") || "";
       renderFabric();
     });
-
-    canvas = new fabric.Canvas("fabric");
-    canvas.renderAll();
 
     canvas.on("path:created", () => {
       fabric_map.set("fabric", JSON.stringify(canvas));

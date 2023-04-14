@@ -9,6 +9,7 @@
   let room : Room;
   let room_id = data.room_id;
   let username = data.username;
+  let storage = data.storage;
   
   type Presence = {
     username: string,
@@ -25,10 +26,9 @@
       room_id, 
       {
         initialPresence: { username, cursor: null,  },
-        initialStorage: { fabric: new LiveMap(), }
+        initialStorage: { fabric: storage.fabric },
       }
     );
-
   });
 
   onDestroy(() => {
