@@ -22,6 +22,7 @@
 
   onMount(() => {
     client = createClient({ authEndpoint: "/api/liveauth" });
+    console.log(storage.fabric);
     room = client.enter<Presence, Storage>(
       room_id, 
       {
@@ -31,8 +32,16 @@
     );
   });
 
-  onDestroy(() => {
+  onDestroy(async () => {
     if (client && room) {
+      const others = room.getOthers();
+      if (others.length === 0) {
+        await fetch("/api/liveblocks", {
+          method: "DELETE",
+          body: JSON.stringify({ room_id }),
+          headers: { "Content-Type": "application/json" },
+        });
+      }
       client.leave(room_id);
     }
   });

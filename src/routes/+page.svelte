@@ -8,7 +8,7 @@
 
 {#if Object.keys(session).length}
   <button on:click={() => goto("/dashboard")}>Dashboard</button>
-  <button on:click={signOut}>Sign Out</button>
+  <button on:click={() => signOut()}>Sign Out</button>
 {:else}
   <button on:click={() => signIn("discord")}>Sign In with Discord</button>
 {/if}

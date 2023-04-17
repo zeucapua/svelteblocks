@@ -17,7 +17,7 @@
   ];
 
   let fabric_map : LiveMap<string, string>;
-  let fabric_json : string;
+  let fabric_json : string = "";
   let canvas : fabric.Canvas;
   let others = room.getOthers();
 
@@ -66,7 +66,7 @@
     canvas = new fabric.Canvas("fabric");
 
     // initial render 
-    fabric_json = fabric_map.get("fabric") || "";
+    fabric_json = fabric_map.get("fabric") || ""; 
     renderFabric();
     canvas.renderAll();
 
@@ -83,7 +83,17 @@
     });
   });
 
-  onDestroy(() => { unsubscribeFromFabric(); unsubscribeFromOthers(); })
+  onDestroy(async () => { 
+    const room_id = room.id;
+    await fetch("/api/liveblocks", {
+      method: "POST",
+      body: JSON.stringify({ room_id, fabric: fabric_json }),
+      headers: { "Content-Type": "application/json" }
+    });
+
+    unsubscribeFromFabric(); 
+    unsubscribeFromOthers(); 
+  })
 
 
   $: if (canvas) { canvas.isDrawingMode = is_drawing_mode; }

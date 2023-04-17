@@ -1,3 +1,4 @@
+import { prisma } from "$lib/prisma";
 import { error } from "@sveltejs/kit";
 import { LIVEBLOCKS_SECRET_KEY } from "$env/static/private";
 
@@ -7,11 +8,10 @@ export async function load({ locals, cookies, url }) {
 
   const params = url.searchParams;
   const room_id = params.get("id");
-  const user_id = cookies.get("user_id");
 
   // for now only allow authed Users
   // TODO: implement Guest flow
-  if ( !(room_id && user_id) ) { throw error(403, "Invalid search params"); }
+  if ( !(room_id && user.id) ) { throw error(403, "Invalid search params"); }
 
   const room_response = await fetch(`https://api.liveblocks.io/v2/rooms/${room_id}`, {
     method: "GET",
@@ -35,8 +35,12 @@ export async function load({ locals, cookies, url }) {
   }
   else {
     // return initial data from database
+    const room = await prisma.room.findUnique({
+      where: { id: room_id }
+    });
+
+    return { room_id, username: user?.name || "", storage: { fabric: room?.fabric || "" } }
   }
 
-  return { room_id, username: user?.name || "", storage: null }
 
 }
